@@ -24,6 +24,7 @@ trust <mac_address>
 scan off
 quit
 ```
+
 Step 3 - Connect Car with Screen
 ```
 screen /dev/rfcomm0
@@ -33,4 +34,6 @@ ath1
 atsp0 <-- use protocol auto, available protocols: 1, 2, 3, 4, 5, 6, 7, 8, 9, A
 0100 <-- mode 01, pid 00, supported pids
 ```
+If successfully connected to the car, 0100 will return something instead of "UNABLE TO CONNECT" or "CAN ERROR" or "BUS INIT: ...ERROR".
+
 Step 4 - Connect Car with Python OBD
