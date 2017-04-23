@@ -9,6 +9,7 @@ Requirements:
 Step 1 - Install Softwares
 * Install [Python OBD](http://python-obd.readthedocs.io/en/latest/): ```sudo pip3 install obd```
 * Upgrade [pySerial](https://pythonhosted.org/pyserial/): ```sudo pip3 install --upgrade pyserial```
+* Install Screen ```sudo apt-get install screen```
 
 Step 2 - Connect OBD Adapater via Bluetooth
 ```
@@ -23,4 +24,13 @@ trust <mac_address>
 scan off
 quit
 ```
-Step 3 - Connect Car
+Step 3 - Connect Car with Screen
+```
+screen /dev/rfcomm0
+atz
+atl1
+ath1
+atsp0 <-- use protocol auto, available protocols: 1, 2, 3, 4, 5, 6, 7, 8, 9, A
+0100 <-- mode 01, pid 00, supported pids
+```
+Step 4 - Connect Car with Python OBD
