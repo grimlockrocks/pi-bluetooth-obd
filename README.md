@@ -25,7 +25,7 @@ scan off
 quit
 ```
 
-Step 3 - Connect Car with Screen
+Step 3 - Connect Car with Screen (Optional)
 ```
 screen /dev/rfcomm0
 atz
@@ -39,3 +39,7 @@ If successfully connected to the car, 0100 will return something instead of "UNA
 Step 4 - Connect Car with Python OBD
 * Create a serial port: ```sudo rfcomm bind hci0 <mac_address>```
 * Run the program: ```python3 obd_reader.py```
+
+Step 5 - Upload Car Data to AWS Dynamo DB (Optional)
+* Install AWS Python SDK: ```sudo pip3 install boto3```
+* Run the program: ```python3 obd_uploader.py```
