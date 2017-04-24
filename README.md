@@ -37,3 +37,5 @@ atsp0 <-- use protocol auto, available protocols: 1, 2, 3, 4, 5, 6, 7, 8, 9, A
 If successfully connected to the car, 0100 will return something instead of "UNABLE TO CONNECT" or "CAN ERROR" or "BUS INIT: ...ERROR".
 
 Step 4 - Connect Car with Python OBD
+* Create a serial port: ```sudo rfcomm bind hci0 <mac_address>```
+* Run the program: ```python3 obd_reader.py```
