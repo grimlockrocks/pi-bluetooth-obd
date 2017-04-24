@@ -42,4 +42,5 @@ Step 4 - Connect Car with Python OBD
 
 Step 5 - Upload Car Data to AWS Dynamo DB (Optional)
 * Install AWS Python SDK: ```sudo pip3 install boto3```
+* Follow the [instructions](http://boto3.readthedocs.io/en/latest/guide/quickstart.html) to set up AWS credentials, and create a DynamoDB table named "telematics"
 * Run the program: ```python3 obd_uploader.py```
