@@ -51,3 +51,4 @@ Step 5 - Upload Car Data to AWS Dynamo DB (Optional)
 
 Step 6 - Create an Alexa Skill (Optional)
 * Create an Alexa skill that reads from the DynamoDB table, so when ask "what's my fuel level", Alexa will respond "your fuel level is 60%"
+* Use the Alexa skill configs and Lambda function from "alexa" folder
