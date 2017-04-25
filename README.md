@@ -15,14 +15,14 @@ Step 2 - Connect OBD Adapater via Bluetooth
 ```
 bluetoothctl
 help <-- see all the commands
-agent on
-default-agent
 show
 power on
 pairable on
+agent on <-- used for persisting pairing code
+default-agent
 scan on <-- find OBDII and its MAC address
 pair <mac_address> <-- enter pin 1234
-trust <mac_address>
+trust <mac_address> <-- this will allow Pi to automatically pair with the device next time
 scan off
 quit
 ```
@@ -41,8 +41,13 @@ If successfully connected to the car, 0100 will return something instead of "UNA
 Step 4 - Connect Car with Python OBD
 * Create a serial port: ```sudo rfcomm bind hci0 <mac_address>```
 * Run the program: ```python3 obd_reader.py```
+* See a list of commands [here](http://python-obd.readthedocs.io/en/latest/Command%20Tables/)
 
 Step 5 - Upload Car Data to AWS Dynamo DB (Optional)
 * Install AWS Python SDK: ```sudo pip3 install boto3```
-* Follow the [instructions](http://boto3.readthedocs.io/en/latest/guide/quickstart.html) to set up AWS credentials, and create a DynamoDB table named "telematics"
+* Follow the [instructions](http://boto3.readthedocs.io/en/latest/guide/quickstart.html) to set up AWS credentials, and create a DynamoDB table named "telematics" with primary key "id"
 * Run the program: ```python3 obd_uploader.py```
+* Check if the speed & fuel level data are uploaded to the DynamoDB table
+
+Step 6 - Create an Alexa Skill (Optional)
+* Create an Alexa skill that reads from the DynamoDB table, so when ask "what's my fuel level", Alexa will respond "your fuel level is 60%"
