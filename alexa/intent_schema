@@ -1,0 +1,13 @@
+{
+  "intents": [
+    {
+      "slots": [
+        {
+          "name": "Status",
+          "type": "LIST_OF_STATUS"
+        }
+      ],
+      "intent": "GetCarDataIntent"
+    }
+  ]
+}

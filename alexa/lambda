@@ -1,0 +1,94 @@
+'use strict';
+
+const Alexa = require('alexa-sdk');
+const APP_ID = "<your_skill_id>"; 
+
+const AWS = require('aws-sdk');
+AWS.config.update({
+    region: 'us-east-1',
+    endpoint: 'https://dynamodb.us-east-1.amazonaws.com'
+});
+const DDB = new AWS.DynamoDB.DocumentClient();
+
+const languageStrings = {
+    'en-GB': {
+        translation: {
+            SKILL_NAME: 'My Volvo',
+            GET_SPEED_MESSAGE: "Your speed is ",
+            GET_FUEL_MESSAGE: "Your fuel level is ",
+            HELP_MESSAGE: 'Help message',
+            HELP_REPROMPT: 'What can I help you with?',
+            STOP_MESSAGE: 'Goodbye!',
+        },
+    },
+    'en-US': {
+        translation: {
+            SKILL_NAME: 'My Volvo',
+            GET_SPEED_MESSAGE: "Your speed is ",
+            GET_FUEL_MESSAGE: "Your fuel level is ",
+            HELP_MESSAGE: 'Help message',
+            HELP_REPROMPT: 'What can I help you with?',
+            STOP_MESSAGE: 'Goodbye!',
+        },
+    }
+};
+
+const handlers = {
+    'LaunchRequest': function () {
+        this.emit('GetCarDataIntent');
+    },
+    'GetCarDataIntent': function () {
+        const context = this;
+        
+        var params = {
+            TableName: 'telematics',
+            KeyConditionExpression: "#id = :id",
+            ExpressionAttributeNames:{
+                "#id": "id"
+            },
+            ExpressionAttributeValues: {
+                ":id": "1"
+            }
+        };
+    
+        DDB.query(params, function(err, data) {
+            if (err) {
+                console.log(err);
+            } else {
+                const result = data.Items[0];
+                    
+                var speechOutput;
+                var status = context.event.request.intent.slots.Status.value;
+                if (status == "speed") {
+                    speechOutput = context.t('GET_SPEED_MESSAGE') + result.speed;
+                } else if (status == "fuel level") {
+                    speechOutput = context.t('GET_FUEL_MESSAGE') + result.fuel;
+                }
+                context.emit(':tell', speechOutput);
+            }
+        });
+    },
+    'AMAZON.HelpIntent': function () {
+        const speechOutput = this.t('HELP_MESSAGE');
+        const reprompt = this.t('HELP_MESSAGE');
+        this.emit(':ask', speechOutput, reprompt);
+    },
+    'AMAZON.CancelIntent': function () {
+        this.emit(':tell', this.t('STOP_MESSAGE'));
+    },
+    'AMAZON.StopIntent': function () {
+        this.emit(':tell', this.t('STOP_MESSAGE'));
+    },
+    'SessionEndedRequest': function () {
+        this.emit(':tell', this.t('STOP_MESSAGE'));
+    },
+};
+
+exports.handler = (event, context) => {
+    const alexa = Alexa.handler(event, context);
+    alexa.APP_ID = APP_ID;
+    alexa.resources = languageStrings;
+    alexa.registerHandlers(handlers);
+    alexa.execute();
+};
+
