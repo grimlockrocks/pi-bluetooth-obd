@@ -15,6 +15,8 @@ Step 2 - Connect OBD Adapater via Bluetooth
 ```
 bluetoothctl
 help <-- see all the commands
+agent on
+default-agent
 show
 power on
 pairable on
